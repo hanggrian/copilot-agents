@@ -1,0 +1,16 @@
+flowchart LR
+  A([*]) --> B(CLOSED)
+  B --> C(LISTEN)
+  C -- SYN --> D(SYN_RCVD)
+  D -- ACK --> E(ESTABLISHED)
+  C -- SYN --> F(SYN_SENT)
+  F -- SYN+ACK --> E
+  E -- FIN active close --> G(FIN_WAIT_1)
+  G -- ACK --> H(FIN_WAIT_2)
+  H -- FIN --> I(TIME_WAIT)
+  G -- FIN --> J(CLOSING)
+  J -- ACK --> I
+  E -- FIN passive close --> K(CLOSE_WAIT)
+  K -- FIN --> L(LAST_ACK)
+  L -- ACK --> B
+  I --> B

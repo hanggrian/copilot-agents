@@ -1,0 +1,28 @@
+[project]
+name = "copilot-agents"
+version = "1"
+requires-python = ">=3.10"
+dependencies = [
+  # main
+  "deepeval",
+  "openai",
+  "python-dotenv",
+]
+
+[tool.poe.tasks]
+lint1 = "pylint tests/"
+lint2 = "stylebook ."
+lint.parallel = ["lint1", "lint2"]
+test = "pytest tests/"
+
+[dependency-groups]
+dev = [
+  "poethepoet",
+  # lint
+  "pylint==4.0.4",
+  "rulebook-pylint==0.2",
+  "regex",
+  "stylebook==0.2",
+  # test
+  "pytest",
+]

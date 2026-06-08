@@ -1,45 +1,24 @@
-# Python Starters
+[![Python](https://shields.io/badge/python-3.10+-informational)](https://docs.python.org/3.10/)
 
-![Logo](https://github.com/hanggrian/python-starters/raw/assets/logo.png)
+# Copilot Agents
 
-Common Python project templates, separated by target platform and kind of
-distribution.
+Custom agents for GitHub Copilot in VS Code built on top of default system
+prompts. Tested only with DeepSeek API, but should work with any
+OpenAI-compatible API.
 
-| | Testing | Publishing | Website | Coverage
---- | :---: | :---: | :---: | :---:
-application | [Pytest] | &cross; | [Material] | &check;
-library | [Pytest] | [Package Index] | [Pdoc], [Material] | &check;
-notebook | &cross; | &cross; | [Pdoc], [Material] | &cross;
+## Agents
 
-## Frameworks
+### Explainer
 
-- Built-in `unittest` testing framework with [`unittest.mock`](https://docs.python.org/3/library/unittest.mock.html) suite and [pytest](https://docs.pytest.org/en/stable/) as a test
-  runner.
-- [Pylint](https://pylint.pycqa.org/en/stable/index.html) code linter with
-  third-party ruleset [Rulebook](https://github.com/hendraanggrian/rulebook/).
-- [Coverage plugin](https://github.com/pytest-dev/pytest-cov/) for Pytest.
+Extended version of **Ask** agent with a tendency to show KaTeX math and Mermaid
+diagrams when explaining technical concepts.
 
-## Project layout
+| Example prompt | Before | After |
+| --- | --- | --- |
+| Explain binary search complexity. | Binary search halves the search space each step, so its time complexity is O(log n). For 1 million elements you need about 20 comparisons. | Binary search halves the search space at each step, yielding $O(\log n)$ time. For $n = 10^6$ elements, the worst-case comparisons are $\lceil \log_2 n \rceil = 20$. The recurrence relation $$T(n) = T\!\left(\frac{n}{2}\right) + O(1)$$ solves to $T(n) = O(\log n)$ by the Master Theorem. |
+| Describe the lifecycle of a TCP connection. | TCP starts with a three-way handshake: SYN, SYN-ACK, ACK. Then data transfers. Finally it closes with a four-way handshake: FIN, ACK, FIN, ACK. | TCP connections follow a well-defined state machine: ![Example](https://github.com/hanggrian/copilot-agents/raw/assets/example.svg) |
 
-- Root directory:
-  - GitHub [README](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes/),
-    [LICENSE](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository/),
-    and [gitignore](https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files/)
-    file.
-  - [EditorConfig](https://editorconfig.org/) enforces IDE settings.
-- [GitHub Actions](https://docs.github.com/en/actions/) workflows:
-  - Run tests, linters and push coverage to [Codecov](https://codecov.io/).
-  - Activate [Renovate](https://docs.renovatebot.com/) bot to alert out-of-date
-    dependencies.
-- [UV](https://docs.astral.sh/uv/) package manager:
-  - `pyproject.toml` with hatchling build system.
-  - `uv.lock` for deterministic dependencies.
-- Website module:
-  - [MkDocs](https://www.mkdocs.org/) for generating webpages displaying README
-    and other content.
-  - The webpages are manually deployed with `mkdocs gh-deploy`.
+## Usage
 
-[Pytest]: https://docs.pytest.org/en/stable/
-[Package Index]: https://pypi.org/
-[Pdoc]: https://pdoc.dev/
-[Material]: https://squidfunk.github.io/mkdocs-material/
+Create a new custom agent with `Chat: Configure Custom Agent...` command and
+select one of the provided templates.
