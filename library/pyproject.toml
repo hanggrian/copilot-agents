@@ -1,0 +1,45 @@
+[tool.uv.workspace]
+members = [
+  "library",
+  "library-extension",
+]
+
+[tool.poe.tasks]
+# duplicate directory names, `uv run pylint library` wouldn't work
+lint1 = "pylint library/library/ library/tests/"
+lint2 = "pylint library-extension/"
+lint3 = "stylebook .github/ *.toml **/*.toml"
+lint.parallel = ["lint1", "lint2", "lint3"]
+test1 = "pytest library/"
+test2 = "pytest library-extension/"
+test = ["test1", "test2"]
+cov1 = "pytest library/ --cov=library"
+cov2 = "pytest library-extension/ --cov=library-extension --cov-append"
+cov3 = "coverage xml"
+cov = ["cov1", "cov2", "cov3"]
+doc1 = "rm -rf build/pdoc/"
+doc2 = "pdoc -o build/pdoc/ library/library/ library-extension/library_extension/"
+doc = ["doc1", "doc2"]
+
+[tool.poe.tasks.build-website]
+shell = "uv pip install -r website/requirements.txt && cd website/ && mkdocs build"
+
+[tool.poe.tasks.preview-website]
+shell = "uv pip install -r website/requirements.txt && cd website/ && mkdocs serve --livereload"
+
+[tool.coverage.run]
+omit = ["*/tests/*"]
+
+[dependency-groups]
+dev = [
+  "poethepoet",
+  "pdoc",
+  # lint
+  "pylint==4.0.4",
+  "rulebook-pylint==0.2",
+  "regex",
+  "stylebook==0.2",
+  # test
+  "pytest",
+  "pytest-cov",
+]
